@@ -1,7 +1,7 @@
 defmodule Issues.GithubIssues do
   require Logger
 
-  @user_agent [ {"User-agent", "Elixir dave@pragprog.com"} ]
+  @user_agent [ {"User-agent", "Elixir nyakiokagure@gmail.com"} ]
   @github_url Application.get_env(:issues, :github_url)
 
   def fetch(user, project) do
@@ -16,6 +16,34 @@ defmodule Issues.GithubIssues do
     "#{@github_url}/repos/#{user}/#{project}/issues"
   end
 
+  @spec handle_response(
+          {any,
+           %{
+             body:
+               binary
+               | maybe_improper_list(
+                   binary | maybe_improper_list(any, binary | []) | byte,
+                   binary | []
+                 ),
+             status_code: any
+           }}
+        ) ::
+          {:error,
+           false
+           | nil
+           | true
+           | binary
+           | [false | nil | true | binary | [any] | number | map]
+           | number
+           | %{optional(atom | binary) => false | nil | true | binary | [any] | number | map}}
+          | {:ok,
+             false
+             | nil
+             | true
+             | binary
+             | [false | nil | true | binary | [any] | number | map]
+             | number
+             | %{optional(atom | binary) => false | nil | true | binary | [any] | number | map}}
   def handle_response({ _, %{status_code: status_code, body: body}}) do
     {
       status_code |> check_for_error(),

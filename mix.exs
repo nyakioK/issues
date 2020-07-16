@@ -6,7 +6,7 @@ defmodule Issues.MixProject do
       app: :issues,
       version: "0.1.0",
       name: "Issues",
-      source_url: "",
+      source_url: "https://github.com/nyakioK/issues",
       escript: escript_config(),
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
